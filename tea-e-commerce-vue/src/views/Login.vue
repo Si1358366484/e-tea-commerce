@@ -67,7 +67,8 @@ const login = async ()=>{
     router.push('/')
 }
 const adminLogin = async ()=>{
-    ElMessage.success(result.message ? result.message : '登录成功')
+    
+    ElMessage.success('登录成功')
     router.push('/admin') 
 }
 //定义函数清空数据模型数据
