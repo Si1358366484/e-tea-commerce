@@ -7,6 +7,8 @@ import {useRouter} from 'vue-router'
 const router = useRouter()
 //控制注册与登录表单的显示， 默认显示注册
 const isRegister = ref(false)
+const isLogin = ref(true)
+const isAdmin = ref(false)
 //定义数据模型
 const registerData = ref({
     username:'',
@@ -64,6 +66,9 @@ const login = async ()=>{
     //跳转
     router.push('/')
 }
+const adminLogin = async ()=>{
+   router.push('/admin') 
+}
 //定义函数清空数据模型数据
 const clearRegisterData = ()=>{
     registerData.value = {
@@ -99,13 +104,13 @@ const clearRegisterData = ()=>{
                     </el-button>
                 </el-form-item>
                 <el-form-item class="flex">
-                    <el-link type="info" :underline="false" @click="isRegister = false; clearRegisterData()">
+                    <el-link type="info" :underline="false" @click="isRegister = false; isLogin = true; isAdmin = false; clearRegisterData()">
                         ← 返回
                     </el-link>
                 </el-form-item>
             </el-form>
             <!-- 登录表单 -->
-            <el-form ref="form" size="large" autocomplete="off" v-else :model="registerData" :rules="rules">
+            <el-form ref="form" size="large" autocomplete="off" v-if="isLogin" :model="registerData" :rules="rules">
                 <el-form-item>
                     <h1>登录</h1>
                 </el-form-item>
@@ -125,9 +130,41 @@ const clearRegisterData = ()=>{
                 <el-form-item>
                     <el-button class="button" type="primary" auto-insert-space @click="login">登录</el-button>
                 </el-form-item>
-                <el-form-item class="flex">
-                    <el-link type="info" :underline="false" @click="isRegister = true; clearRegisterData()">
+                <el-form-item class="flexbox">
+                    <el-link type="info" :underline="false" @click="isRegister = true; isLogin = false; isAdmin = false; clearRegisterData()">
                         注册 →
+                    </el-link>
+                </el-form-item>
+                <el-form-item>
+                    <el-link type="info" :underline="false" @click="isRegister = false; isLogin = false; isAdmin = true; clearRegisterData()">
+                        管理员登录 →
+                    </el-link>
+                </el-form-item>
+            </el-form>
+            <!-- 管理员登录表单 -->
+            <el-form ref="form" size="large" autocomplete="off" v-if="isAdmin" :model="registerData" :rules="rules">
+                <el-form-item>
+                    <h1>管理员登录</h1>
+                </el-form-item>
+                <el-form-item prop="username">
+                    <el-input :prefix-icon="User" placeholder="请输入用户名" v-model="registerData.username"></el-input>
+                </el-form-item>
+                <el-form-item prop="password">
+                    <el-input name="password" :prefix-icon="Lock" type="password" placeholder="请输入密码" v-model="registerData.password"></el-input>
+                </el-form-item>
+                <el-form-item class="flex">
+                    <div class="flex">
+                        <el-checkbox>记住我</el-checkbox>
+                        <el-link type="primary" :underline="false">忘记密码？</el-link>
+                    </div>
+                </el-form-item>
+                <!-- 登录按钮 -->
+                <el-form-item>
+                    <el-button class="button" type="primary" auto-insert-space @click="adminLogin">登录</el-button>
+                </el-form-item>
+                <el-form-item class="flexbox">
+                    <el-link type="info" :underline="false" @click="isRegister = false; isLogin = true; isAdmin = false; clearRegisterData()">
+                        返回 →
                     </el-link>
                 </el-form-item>
             </el-form>
@@ -164,6 +201,12 @@ const clearRegisterData = ()=>{
         .flex {
             width: 100%;
             display: flex;
+            justify-content: space-between;
+        }
+        .flexbox{
+            width: 100%;
+            display: flex;
+            flex-direction: column;
             justify-content: space-between;
         }
     }
