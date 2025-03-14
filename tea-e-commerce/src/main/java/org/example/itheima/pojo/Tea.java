@@ -1,5 +1,6 @@
 package org.example.itheima.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -10,9 +11,8 @@ public class Tea {
     private String category;
     private String name;
     private String description;
-    private LocalDateTime expiration_date;
-    private String origin_place;
-    private LocalDateTime production_time;
+    private String expirationDate;
+    private String originPlace;
     private float price;
     private String image;
 }

@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface TeaService {
     List<Tea> getTeaList();
+
+    Tea getTeaById(Integer id);
 }

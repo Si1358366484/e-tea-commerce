@@ -10,4 +10,6 @@ import java.util.List;
 public interface TeaMapper {
     @Select("select * from tea")
     List<Tea> getTeaList();
+    @Select("select * from tea where id=#{id}")
+    Tea getTeaById(Integer id);
 }
