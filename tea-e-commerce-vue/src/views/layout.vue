@@ -1,14 +1,4 @@
 <script setup>
-import {
-    Management,
-    Promotion,
-    UserFilled,
-    User,
-    Crop,
-    EditPen,
-    SwitchButton,
-    CaretBottom
-} from '@element-plus/icons-vue'
 import avatar from '@/assets/cy.jpg'
 import {userInfoService} from '@/api/user.js'
 import { useTokenStore } from '@/stores/token.js'
@@ -71,6 +61,24 @@ const handleCommand = (command) => {
             <div class="el-aside__logo"></div>
             <el-menu active-text-color="#ffd04b" background-color="#232323"  text-color="#fff"
                 router>
+                <el-menu-item index="/tea">
+                    <el-icon>
+                        <CoffeeCup />
+                    </el-icon>
+                    <span>茶叶信息管理</span>
+                </el-menu-item>
+                <el-menu-item index="/order">
+                    <el-icon>
+                        <ShoppingCart />
+                    </el-icon>
+                    <span>订单管理</span>
+                </el-menu-item>
+                <el-menu-item index="/comment">
+                    <el-icon>
+                        <Comment />
+                    </el-icon>
+                    <span>评论管理</span>
+                </el-menu-item>
                 <el-sub-menu >
                     <template #title>
                         <el-icon>
@@ -103,7 +111,7 @@ const handleCommand = (command) => {
         <el-container>
             <!-- 头部区域 -->
             <el-header>
-                <div>黑马程序员：<strong>{{userInfoStore.info.nickname}}</strong></div>
+                <div>这里是茶叶电商系统后台：<strong>Administrators</strong></div>
                 <el-dropdown placement="bottom-end" @command="handleCommand">
                     <span class="el-dropdown__box">
                         <el-avatar :src="userInfoStore.info.userPic?userInfoStore.info.userPic:avatar" />
@@ -130,7 +138,7 @@ const handleCommand = (command) => {
                 <router-view></router-view>
             </el-main>
             <!-- 底部区域 -->
-            <el-footer>大事件 ©2023 Created by 黑马程序员</el-footer>
+            <el-footer>茶叶电商后台管理系统 ©2024 All Rights Reserved</el-footer>
         </el-container>
     </el-container>
 </template>
