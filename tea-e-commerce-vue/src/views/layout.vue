@@ -12,7 +12,7 @@ const getUserInfo = async () => {
     //数据存储到pinia
     userInfoStore.setInfo(result.data)
 }
-getUserInfo()
+//getUserInfo()
 // 点击下拉菜单的回调
 import {useRouter} from 'vue-router'
 const router = useRouter()
@@ -114,7 +114,8 @@ const handleCommand = (command) => {
                 <div>这里是茶叶电商系统后台：<strong>Administrators</strong></div>
                 <el-dropdown placement="bottom-end" @command="handleCommand">
                     <span class="el-dropdown__box">
-                        <el-avatar :src="userInfoStore.info.userPic?userInfoStore.info.userPic:avatar" />
+                        <!-- <el-avatar :src="userInfoStore.info.userPic?userInfoStore.info.userPic:avatar" /> -->
+                        <el-avatar :src="avatar" />
                         <el-icon>
                             <CaretBottom />
                         </el-icon>

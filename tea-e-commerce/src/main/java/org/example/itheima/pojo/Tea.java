@@ -12,7 +12,7 @@ public class Tea {
     private String name;
     private String description;
     private String expirationDate;
-    private String originPlace;
+    private String origin;
     private float price;
     private String image;
 }
