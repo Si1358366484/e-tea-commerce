@@ -36,4 +36,16 @@ public class TeaController {
         teaService.deleteTea(id);
         return Result.success();
     }
+    @PostMapping("/admin/tea")
+    public Result addTea(@RequestBody Tea tea) {
+        System.out.println(tea);
+        teaService.addTea(tea);
+        return Result.success("上架成功");
+    }
+    @PutMapping("/admin/tea/{id}")
+    public Result updateTea(@PathVariable("id") Integer id, @RequestBody Tea tea) {
+        tea.setId(id);
+        teaService.updateTea(tea);
+        return Result.success("修改成功");
+    }
 }

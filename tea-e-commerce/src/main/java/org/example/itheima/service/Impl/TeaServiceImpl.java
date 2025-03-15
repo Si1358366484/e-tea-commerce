@@ -43,4 +43,14 @@ public class TeaServiceImpl implements TeaService {
         teaMapper.deleteTea(id);
     }
 
+    @Override
+    public void addTea(Tea tea) {
+        teaMapper.addTea(tea);
+    }
+
+    @Override
+    public void updateTea(Tea tea) {
+        teaMapper.updateTea(tea);
+    }
+
 }

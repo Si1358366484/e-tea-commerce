@@ -13,4 +13,8 @@ public interface TeaService {
     PageBean<Tea> teaList(Integer pageNum, Integer pageSize, String categoryName);
 
     void deleteTea(Integer id);
+
+    void addTea(Tea tea);
+
+    void updateTea(Tea tea);
 }
