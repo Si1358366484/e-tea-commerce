@@ -13,7 +13,7 @@ const instance = axios.create({baseURL})
 instance.interceptors.response.use(
     result=>{
         //判断业务状态码
-        if(result.data.code === 0){
+        if(result.data.code === 1){
             return result.data;
         }
         //alert(result.data.msg?result.data.msg:'服务异常');
