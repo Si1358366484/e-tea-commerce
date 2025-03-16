@@ -52,6 +52,16 @@ const handleCommand = (command) => {
         router.push('/user/' + command)
     }
 }
+
+// 添加日期和时间相关的函数
+const getCurrentDate = () => {
+    const date = new Date()
+    return `${date.getFullYear()}年${date.getMonth() + 1}月${date.getDate()}日`
+}
+const getCurrentTime = () => {
+    const date = new Date()
+    return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')} ${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}:${String(date.getSeconds()).padStart(2, '0')}`
+}
 </script>
 
 <template>
@@ -133,10 +143,88 @@ const handleCommand = (command) => {
             </el-header>
             <!-- 中间区域 -->
             <el-main>
-                <!-- <div style="width: 1290px; height: 570px;border: 1px solid red;">
-                    内容展示区
-                </div> -->
-                <router-view></router-view>
+                <router-view v-slot="{ Component }">
+                    <component :is="Component" v-if="$route.path !== '/'" />
+                    <div v-else class="welcome-container">
+                        <div class="welcome-header">
+                            <h2>今天是 {{ getCurrentDate() }}</h2>
+                        </div>
+                        
+                        <el-row :gutter="20" class="data-overview">
+                            <el-col :span="12">
+                                <el-card shadow="hover">
+                                    <template #header>
+                                        <div class="card-header">
+                                            <div class="title">
+                                                <el-icon><Goods /></el-icon>
+                                                <span>商品总数</span>
+                                            </div>
+                                        </div>
+                                    </template>
+                                    <div class="card-number">358</div>
+                                </el-card>
+                            </el-col>
+                            <el-col :span="12">
+                                <el-card shadow="hover">
+                                    <template #header>
+                                        <div class="card-header">
+                                            <div class="title">
+                                                <el-icon><ShoppingCart /></el-icon>
+                                                <span>订单总数</span>
+                                            </div>
+                                        </div>
+                                    </template>
+                                    <div class="card-number">1,234</div>
+                                </el-card>
+                            </el-col>
+                        </el-row>
+
+                        <el-row :gutter="20" class="data-overview" style="margin-top: 20px;">
+                            <el-col :span="12">
+                                <el-card shadow="hover">
+                                    <template #header>
+                                        <div class="card-header">
+                                            <div class="title">
+                                                <el-icon><ChatDotRound /></el-icon>
+                                                <span>评论数量</span>
+                                            </div>
+                                        </div>
+                                    </template>
+                                    <div class="card-number">526</div>
+                                </el-card>
+                            </el-col>
+                            <el-col :span="12">
+                                <el-card shadow="hover">
+                                    <template #header>
+                                        <div class="card-header">
+                                            <div class="title">
+                                                <el-icon><User /></el-icon>
+                                                <span>用户数量</span>
+                                            </div>
+                                        </div>
+                                    </template>
+                                    <div class="card-number">892</div>
+                                </el-card>
+                            </el-col>
+                        </el-row>
+
+                        <el-card class="system-info" style="margin-top: 20px;">
+                            <template #header>
+                                <div class="card-header">
+                                    <span>系统信息</span>
+                                </div>
+                            </template>
+                            <el-descriptions :column="2" :border="true">
+                                <el-descriptions-item label="系统版本">v1.0.0</el-descriptions-item>
+                                <el-descriptions-item label="Node版本">v16.0.0</el-descriptions-item>
+                                <el-descriptions-item label="操作系统">Windows 11</el-descriptions-item>
+                                <el-descriptions-item label="运行环境">Chrome 120</el-descriptions-item>
+                                <el-descriptions-item label="当前用户">Administrators</el-descriptions-item>
+                                <el-descriptions-item label="登录时间">{{ getCurrentTime() }}</el-descriptions-item>
+                            </el-descriptions>
+                        </el-card>
+                    </div>
+                </router-view>
             </el-main>
             <!-- 底部区域 -->
             <el-footer>茶叶电商后台管理系统 ©2024 All Rights Reserved</el-footer>
@@ -189,6 +277,30 @@ const handleCommand = (command) => {
         justify-content: center;
         font-size: 14px;
         color: #666;
+    }
+}
+
+.data-overview {
+    .el-card {
+        .card-header {
+            .title {
+                display: flex;
+                align-items: center;
+                gap: 8px;  // 设置图标和文字之间的间距
+                
+                .el-icon {
+                    font-size: 16px;
+                }
+            }
+        }
+
+        .card-number {
+            font-size: 28px;
+            font-weight: bold;
+            color: #409EFF;
+            text-align: center;
+            padding: 10px 0;
+        }
     }
 }
 </style>
