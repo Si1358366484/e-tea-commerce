@@ -16,7 +16,6 @@ instance.interceptors.response.use(
         if(result.data.code === 1){
             return result.data;
         }
-        //alert(result.data.msg?result.data.msg:'服务异常');
         ElMessage.error(result.data.msg?result.data.msg:'服务异常');
         //异步操作转换为失败状态
         return Promise.reject(result.data);
@@ -39,9 +38,9 @@ import { useTokenStore } from '@/stores/token';
 instance.interceptors.request.use(
     //请求前的回调
     config=>{
-        const tokenStore = useTokenStore();
-        if (tokenStore.token) {
-            config.headers.Authorization = tokenStore.token;
+        let adminToken = JSON.parse(localStorage.getItem('adminToken'));
+        if (adminToken) {
+            config.headers.token = adminToken.token;
         }
         return config;
     },

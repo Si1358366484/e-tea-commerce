@@ -27,9 +27,7 @@ public class CustomerController {
     public Result login(@RequestBody Customer customer){
         String password = customer.getPassword();
         String username = customer.getUsername();
-        System.out.println(customer);
         Customer c = customerService.login(username);
-        System.out.println(c);
         if (c == null) {
             return Result.error("用户名错误");
         }else {

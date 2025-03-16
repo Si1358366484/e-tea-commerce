@@ -23,23 +23,9 @@ public class LoginInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         //令牌验证
-        String token = request.getHeader("Authorization");
+        String token = request.getHeader("token");
         //验证token
         try {
-            //从redis中获取相同的token
-
-            //因为拦截器是一个特殊的组件，它并不直接由Spring容器管理。因此，直接在拦截器中使用@Autowired进行依赖注入可能会导致注入失败
-            //这里我们使用WebApplicationContextUtils来获取WebApplicationContext，然后通过注入
-            if (stringRedisTemplate == null) {
-                WebApplicationContext context = WebApplicationContextUtils.getRequiredWebApplicationContext(request.getServletContext());
-                stringRedisTemplate = context.getBean(StringRedisTemplate.class);
-            }
-
-            ValueOperations<String, String> operations = stringRedisTemplate.opsForValue();
-            String RedisToken = operations.get(token);
-            if (RedisToken == null){
-                throw new RuntimeException();
-            }
             Map<String, Object> claims = JwtUtil.parseToken(token);
 
             //把业务数据存储到Thread中

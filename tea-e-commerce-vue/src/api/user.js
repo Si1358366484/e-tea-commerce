@@ -36,3 +36,5 @@ export const userUpdateAvatarService = (avatarUrl)=>{
 export const userUpdatePasswordService = (params)=>{
     return request.patch('/user/updatePwd',params)
 }
+
+

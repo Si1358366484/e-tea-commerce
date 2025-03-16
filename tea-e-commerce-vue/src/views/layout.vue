@@ -1,5 +1,5 @@
 <script setup>
-import avatar from '@/assets/cy.jpg'
+import avatar from '@/assets/default.png'
 import {userInfoService} from '@/api/user.js'
 import { useTokenStore } from '@/stores/token.js'
 import useUserInfoStore from '@/stores/userInfo.js'
@@ -32,8 +32,7 @@ const handleCommand = (command) => {
     .then(async () => {
         //退出登录
         //1.清除token
-        tokenStore.removeToken()
-        userInfoStore.removeInfo()
+        localStorage.removeItem("adminToken");
         //2.跳转登录
         router.push('/login')
       ElMessage({
