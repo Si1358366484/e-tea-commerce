@@ -17,4 +17,6 @@ public interface TeaService {
     void addTea(Tea tea);
 
     void updateTea(Tea tea);
+
+    List<Tea> search(String name);
 }

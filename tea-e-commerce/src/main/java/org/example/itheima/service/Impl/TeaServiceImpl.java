@@ -53,4 +53,9 @@ public class TeaServiceImpl implements TeaService {
         teaMapper.updateTea(tea);
     }
 
+    @Override
+    public List<Tea> search(String name) {
+        return teaMapper.search(name);
+    }
+
 }

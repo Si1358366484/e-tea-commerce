@@ -5,7 +5,6 @@ import org.example.itheima.pojo.Result;
 import org.example.itheima.pojo.Tea;
 import org.example.itheima.service.TeaService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,6 +23,11 @@ public class TeaController {
     public Result<Tea> getTeaById(@PathVariable("id")Integer id) {
         Tea tea = teaService.getTeaById(id);
         return Result.success(tea);
+    }
+    @GetMapping("/search/{name}")
+    public Result<List<Tea>> search(@PathVariable("name") String name){
+        List<Tea> teas = teaService.search(name);
+        return Result.success(teas);
     }
     //下面是管理员的功能
     @GetMapping("/admin/teaList")

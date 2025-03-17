@@ -1,7 +1,6 @@
 package org.example.itheima.mapper;
 
 import org.apache.ibatis.annotations.*;
-import org.example.itheima.pojo.PageBean;
 import org.example.itheima.pojo.Tea;
 
 import java.util.List;
@@ -22,4 +21,6 @@ public interface TeaMapper {
     @Update("update tea set category=#{category},name=#{name},description=#{description}," +
             "expiration_date=#{expirationDate},origin=#{origin},price=#{price},image=#{image} where id=#{id}")
     void updateTea(Tea tea);
+    @Select("select * from tea where name like concat('%',#{name},'%')")
+    List<Tea> search(String name);
 }
