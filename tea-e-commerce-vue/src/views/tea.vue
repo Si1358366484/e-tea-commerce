@@ -246,6 +246,11 @@ const editTea = async () => {
         display: flex;
         align-items: center;
         justify-content: space-between;
+        span {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            }
     }
 }
 .avatar-uploader {
