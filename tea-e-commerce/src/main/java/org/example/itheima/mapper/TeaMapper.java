@@ -21,6 +21,6 @@ public interface TeaMapper {
     @Update("update tea set category=#{category},name=#{name},description=#{description}," +
             "expiration_date=#{expirationDate},origin=#{origin},price=#{price},image=#{image} where id=#{id}")
     void updateTea(Tea tea);
-    @Select("select * from tea where name like concat('%',#{name},'%')")
+
     List<Tea> search(String name);
 }

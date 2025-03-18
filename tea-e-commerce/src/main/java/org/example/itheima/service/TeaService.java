@@ -18,5 +18,5 @@ public interface TeaService {
 
     void updateTea(Tea tea);
 
-    List<Tea> search(String name);
+    PageBean<Tea> search(Integer page, Integer pageSize, String name);
 }

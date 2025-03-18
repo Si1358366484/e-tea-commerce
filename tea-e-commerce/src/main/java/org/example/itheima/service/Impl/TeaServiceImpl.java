@@ -54,8 +54,13 @@ public class TeaServiceImpl implements TeaService {
     }
 
     @Override
-    public List<Tea> search(String name) {
-        return teaMapper.search(name);
+    public PageBean<Tea> search(Integer page, Integer pageSize, String name) {
+        PageBean<Tea> pageBean = new PageBean<>();
+        PageHelper.startPage(page,pageSize);
+        List<Tea> teas = teaMapper.search(name);
+        Page<Tea> p = (Page<Tea>) teas;
+        pageBean.setTotal(p.getTotal());
+        pageBean.setItems(p.getResult());
+        return pageBean;
     }
-
 }

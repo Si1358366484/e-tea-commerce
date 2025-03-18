@@ -11,4 +11,12 @@
             </if>
         </where>
     </select>
+    <select id="search" resultType="org.example.itheima.pojo.Tea">
+        select * from tea
+        <where>
+            <if test="name != null and name != ''">
+                name like concat('%',#{name},'%')
+            </if>
+        </where>
+    </select>
 </mapper>

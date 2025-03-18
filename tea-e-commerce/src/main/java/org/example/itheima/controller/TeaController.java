@@ -14,6 +14,13 @@ public class TeaController {
     @Autowired
     private TeaService teaService;
     @GetMapping("/teas")
+    public Result<PageBean<Tea>> search(@RequestParam(defaultValue = "1") Integer page,
+                                      @RequestParam(defaultValue = "6") Integer pageSize,
+                                      @RequestParam(required = false) String name) {
+        PageBean<Tea> teas = teaService.search(page, pageSize, name);
+        return Result.success(teas);
+    }
+    @GetMapping("/teas/list")
     public Result<List<Tea>> getTeaList() {
         List<Tea> teas = teaService.getTeaList();
         return Result.success(teas);
@@ -23,11 +30,6 @@ public class TeaController {
     public Result<Tea> getTeaById(@PathVariable("id")Integer id) {
         Tea tea = teaService.getTeaById(id);
         return Result.success(tea);
-    }
-    @GetMapping("/search/{name}")
-    public Result<List<Tea>> search(@PathVariable("name") String name){
-        List<Tea> teas = teaService.search(name);
-        return Result.success(teas);
     }
     //下面是管理员的功能
     @GetMapping("/admin/teaList")
