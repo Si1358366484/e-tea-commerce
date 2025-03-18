@@ -15,11 +15,11 @@ public interface TeaMapper {
     List<Tea> teaList(String categoryName);
     @Delete("delete from tea where id=#{id}")
     void deleteTea(Integer id);
-    @Insert("insert into tea(category,name,description,expiration_date,origin,price,image) " +
-            "values(#{category},#{name},#{description},#{expirationDate},#{origin},#{price},#{image})")
+    @Insert("insert into tea(category,name,description,origin,price,image) " +
+            "values(#{category},#{name},#{description},#{origin},#{price},#{image})")
     void addTea(Tea tea);
     @Update("update tea set category=#{category},name=#{name},description=#{description}," +
-            "expiration_date=#{expirationDate},origin=#{origin},price=#{price},image=#{image} where id=#{id}")
+            "origin=#{origin},price=#{price},image=#{image} where id=#{id}")
     void updateTea(Tea tea);
 
     List<Tea> search(String name);

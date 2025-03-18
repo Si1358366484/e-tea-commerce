@@ -12,5 +12,5 @@ import java.util.List;
 @AllArgsConstructor
 public class PageBean <T>{
     private Long total;//总条数
-    private List<T> items;//当前页数据集合
+    private List<T> rows;//当前页数据集合
 }

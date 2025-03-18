@@ -95,12 +95,6 @@ const getCurrentTime = () => {
                         </el-icon>
                         <span>个人中心</span>
                     </template>
-                    <el-menu-item index="/user/info">
-                        <el-icon>
-                            <User />
-                        </el-icon>
-                        <span>基本资料</span>
-                    </el-menu-item>
                     <el-menu-item index="/user/avatar">
                         <el-icon>
                             <Crop />
@@ -132,7 +126,6 @@ const getCurrentTime = () => {
                     <template #dropdown>
                         <el-dropdown-menu>
                             <!-- command 条目被点击后触发，名字应该与路由表一致 -->
-                            <el-dropdown-item command="info" :icon="User">基本资料</el-dropdown-item>
                             <el-dropdown-item command="avatar" :icon="Crop">更换头像</el-dropdown-item>
                             <el-dropdown-item command="resetpassword" :icon="EditPen">重置密码</el-dropdown-item>
                             <el-dropdown-item command="logout" :icon="SwitchButton">退出登录</el-dropdown-item>

@@ -57,7 +57,7 @@ const teaList = async () => {
     };
     let result = await teaListService(params)
     total.value = result.data.total
-    teas.value = result.data.items
+    teas.value = result.data.rows
 }
 teaList()
 //删除茶叶

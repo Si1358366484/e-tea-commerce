@@ -34,7 +34,7 @@ public class TeaServiceImpl implements TeaService {
         List<Tea> teas = teaMapper.teaList(categoryName);
         Page<Tea> p = (Page<Tea>) teas;
         pageBean.setTotal(p.getTotal());
-        pageBean.setItems(p.getResult());
+        pageBean.setRows(p.getResult());
         return pageBean;
     }
 
@@ -60,7 +60,7 @@ public class TeaServiceImpl implements TeaService {
         List<Tea> teas = teaMapper.search(name);
         Page<Tea> p = (Page<Tea>) teas;
         pageBean.setTotal(p.getTotal());
-        pageBean.setItems(p.getResult());
+        pageBean.setRows(p.getResult());
         return pageBean;
     }
 }

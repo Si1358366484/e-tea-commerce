@@ -11,7 +11,6 @@ public class Tea {
     private String category;
     private String name;
     private String description;
-    private String expirationDate;
     private String origin;
     private float price;
     private String image;
