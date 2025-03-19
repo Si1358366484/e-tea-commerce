@@ -16,11 +16,6 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<Order> orderList() {
-//        List<Order> orders = orderMapper.orderList();
-//        for (Order order : orders){
-//            order.setOrderStatus(OrderStatus.valueOf(order.getOrderStatus()).getDescription());
-//        }
-//        return orders;
         return orderMapper.orderList();
     }
 
@@ -28,5 +23,20 @@ public class OrderServiceImpl implements OrderService {
     public void addOrder(Order order) {
         order.setState(OrderStatus.已付款.getDescription());
         orderMapper.addOrder(order);
+    }
+
+    @Override
+    public void updateOrder(Order order) {
+        if (order.getState().equals("已发货")){
+            order.setState(OrderStatus.已发货.getDescription());
+        }else {
+            order.setState(OrderStatus.已退货.getDescription());
+        }
+        orderMapper.updateOrder(order);
+    }
+
+    @Override
+    public Order orderSearch(String orderReference) {
+        return orderMapper.orderSearch(orderReference);
     }
 }

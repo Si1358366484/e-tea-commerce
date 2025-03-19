@@ -8,4 +8,8 @@ public interface OrderService {
     List<Order> orderList();
 
     void addOrder(Order order);
+
+    void updateOrder(Order order);
+
+    Order orderSearch(String orderReference);
 }

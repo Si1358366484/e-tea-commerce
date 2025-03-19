@@ -23,5 +23,15 @@ public class OrderController {
         orderService.addOrder(order);
         return Result.success("下单成功");
     }
+    @PutMapping("/orderUpdate")
+    public Result updateOrder(@RequestBody Order order){
+        orderService.updateOrder(order);
+        return Result.success("修改成功");
+    }
+    @GetMapping("/orderSearch/{orderReference}")
+    public Result<Order> orderSearch(@PathVariable("orderReference") String orderReference){
+        Order order = orderService.orderSearch(orderReference);
+        return Result.success(order);
+    }
 }
 
