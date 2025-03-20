@@ -9,3 +9,12 @@ export const adminLoginService = (loginData)=>{
  }
  return request.post('/admin/login',params)
 }
+//修改密码
+export const adminUpdatePasswordService = (updateData)=>{
+  return request.patch('/admin/updatePwd',updateData);
+}
+export const adminUpdateAvatarService = (avatarUrl)=>{
+  const params = new URLSearchParams()
+  params.append('avatarUrl',avatarUrl)
+  return request.patch('/admin/updateAvatar',params)
+}

@@ -42,12 +42,14 @@ const rules = {
         {required: true,validator: checkRePassword, trigger:'blur'}
     ]
 }
-import { userUpdatePasswordService } from '@/api/user.js'
+import { adminUpdatePasswordService } from '@/api/admin'
 import { ElMessage } from 'element-plus'
 
-const updateUserPwd = async ()=>{
-    let result = await userUpdatePasswordService(updateData.value)
+const updateAdminPwd = async ()=>{
+    let result = await adminUpdatePasswordService(updateData.value)
+    console.log(result);
     ElMessage.success(result.message?result.message : '修改密码成功,请重新登录')
+    localStorage.removeItem("adminToken");
     router.push('/login')
 }
 
@@ -72,7 +74,7 @@ const updateUserPwd = async ()=>{
                         <el-input v-model="updateData.rePassword" placeholder="请输入再次密码"></el-input>
                     </el-form-item>
                     <el-form-item>
-                        <el-button type="primary" @click="updateUserPwd">提交修改</el-button>
+                        <el-button type="primary" @click="updateAdminPwd()">提交修改</el-button>
                     </el-form-item>
                 </el-form>
             </el-col>

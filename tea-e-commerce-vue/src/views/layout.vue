@@ -1,18 +1,8 @@
 <script setup>
 import avatar from '@/assets/default.png'
-import {userInfoService} from '@/api/user.js'
-import { useTokenStore } from '@/stores/token.js'
-import useUserInfoStore from '@/stores/userInfo.js'
+const adminData = localStorage.getItem('adminToken')
+const parsedData = JSON.parse(adminData); // 解析为对象
 
-const userInfoStore = useUserInfoStore()
-const tokenStore = useTokenStore()
-//调用函数获取用户信息
-const getUserInfo = async () => {
-    let result = await userInfoService()
-    //数据存储到pinia
-    userInfoStore.setInfo(result.data)
-}
-//getUserInfo()
 // 点击下拉菜单的回调
 import {useRouter} from 'vue-router'
 const router = useRouter()
@@ -95,13 +85,13 @@ const getCurrentTime = () => {
                         </el-icon>
                         <span>个人中心</span>
                     </template>
-                    <el-menu-item index="/user/avatar">
+                    <el-menu-item index="/admin/avatar">
                         <el-icon>
                             <Crop />
                         </el-icon>
                         <span>更换头像</span>
                     </el-menu-item>
-                    <el-menu-item index="/user/resetpassword">
+                    <el-menu-item index="/admin/resetpassword">
                         <el-icon>
                             <EditPen />
                         </el-icon>
@@ -117,8 +107,7 @@ const getCurrentTime = () => {
                 <div>这里是茶叶电商系统后台：<strong>Administrators</strong></div>
                 <el-dropdown placement="bottom-end" @command="handleCommand">
                     <span class="el-dropdown__box">
-                        <!-- <el-avatar :src="userInfoStore.info.userPic?userInfoStore.info.userPic:avatar" /> -->
-                        <el-avatar :src="avatar" />
+                        <el-avatar :src="parsedData.adminPic?parsedData.adminPic:avatar" />
                         <el-icon>
                             <CaretBottom />
                         </el-icon>
@@ -126,8 +115,8 @@ const getCurrentTime = () => {
                     <template #dropdown>
                         <el-dropdown-menu>
                             <!-- command 条目被点击后触发，名字应该与路由表一致 -->
-                            <el-dropdown-item command="avatar" :icon="Crop">更换头像</el-dropdown-item>
-                            <el-dropdown-item command="resetpassword" :icon="EditPen">重置密码</el-dropdown-item>
+                            <el-dropdown-item command="/avatar" :icon="Crop">更换头像</el-dropdown-item>
+                            <el-dropdown-item command="/resetpassword" :icon="EditPen">重置密码</el-dropdown-item>
                             <el-dropdown-item command="logout" :icon="SwitchButton">退出登录</el-dropdown-item>
                         </el-dropdown-menu>
                     </template>

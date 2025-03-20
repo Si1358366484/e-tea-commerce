@@ -112,7 +112,7 @@ public class UserController {
             return Result.error("原密码错误");
         }
 
-        if (!rePwd.equals(newPwd)){
+        if (!rePwd.equals(newPwd)){ 
             return Result.error("两次密码不一致");
         }
 

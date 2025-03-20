@@ -2,11 +2,17 @@ package org.example.itheima.controller;
 
 import org.example.itheima.pojo.Order;
 import org.example.itheima.pojo.Result;
+import org.example.itheima.pojo.User;
 import org.example.itheima.service.OrderService;
+import org.example.itheima.utils.Md5Util;
+import org.example.itheima.utils.ThreadLocalUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.ValueOperations;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/admin")
