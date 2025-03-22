@@ -34,7 +34,7 @@ const updateAvatar = async () => {
             </div>
         </template>
         <el-row>
-            <el-col :span="12">
+            <el-col :span="12"> 
                 <el-upload 
                     ref="uploadRef"
                     class="avatar-uploader" 

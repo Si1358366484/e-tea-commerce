@@ -1,14 +1,25 @@
 <script setup>
-import {
-    Edit,
-    Delete
-} from '@element-plus/icons-vue'
 
 import { ref } from 'vue'
 import {teaListService, teaDeleteServise, teaAddService , teaEditService} from '@/api/tea.js'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { QuillEditor } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css'
+
+import {
+    Edit,
+    Delete,
+    Plus
+} from '@element-plus/icons-vue'
+
+const adminData = localStorage.getItem('adminToken')
+const parsedData = JSON.parse(adminData); // 解析为对象
+const imgUrl= ref()
+
+//上传图片成功回调
+const uploadSuccess = (result) => {
+    imgUrl.value = result.data
+}
 //分类数据模型
 const categorys = ref([
     {
@@ -98,16 +109,19 @@ const teaModel = ref({
     origin: '',
     price: '',
     description: '',
-    expirationDate: '',
     image: ''
 })
 //添加茶叶
 const addTea = async () => {
     // 去除HTML标签
     teaModel.value.description = teaModel.value.description.replace(/<[^>]+>/g, '')
+    teaModel.value.image = imgUrl.value
+    console.log(teaModel.value)
     let result = await teaAddService(teaModel.value)
     ElMessage.success('添加成功')
     visibleDrawer.value = false
+    // 清空imgUrl的值
+    imgUrl.value = '' 
     teaList()
 }
 //定义变量控制标题显示
@@ -134,7 +148,6 @@ const clearTeaModel = () => {
         origin: '',
         price: '',
         description: '<p></p>',
-        expirationDate: '',
         image: ''
     }
 }
@@ -214,12 +227,19 @@ const editTea = async () => {
                 <el-form-item label="茶叶价格" >
                     <el-input v-model="teaModel.price" placeholder="请输入茶叶价格"></el-input>
                 </el-form-item>
-                <el-form-item label="茶叶保质期" >
-                    <el-input v-model="teaModel.expirationDate" placeholder="请输入茶叶保质期"></el-input>
-                </el-form-item>
                 <el-form-item label="茶叶封面">
-                    <el-upload class="avatar-uploader" :auto-upload="false" :show-file-list="false">
-                        <img v-if="teaModel.image" :src="teaModel.image" class="avatar" />
+                    <el-upload 
+                    ref="uploadRef"
+                    class="avatar-uploader" 
+                    :auto-upload="true" 
+                    :show-file-list="false"
+                    action="/api/upload" 
+                    name="file" 
+                    :headers="{'token':parsedData.token}"
+                    :on-success="uploadSuccess"
+                    >
+                        <!-- 修改判断条件 -->
+                        <img v-if="imgUrl!== ''" :src="imgUrl" class="avatar" />
                         <el-icon v-else class="avatar-uploader-icon">
                             <Plus />
                         </el-icon>
