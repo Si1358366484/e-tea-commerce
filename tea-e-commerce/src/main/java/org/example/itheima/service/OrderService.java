@@ -17,4 +17,6 @@ public interface OrderService {
     String addOrder(OrderData orders);
 
     OrderDetail getOrderById(String orderId);
+
+    void updateOrderState(Order order);
 }

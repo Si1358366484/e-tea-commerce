@@ -57,6 +57,13 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public void updateOrderState(Order order) {
+        System.out.println(order);
+        order.setState(OrderStatus.已付款.getDescription());
+        orderMapper.updateOrder(order);
+    }
+
+    @Override
     public void updateOrder(Order order) {
         //待修改
         if (order.getState().equals("已发货")) {

@@ -8,7 +8,11 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import com.alibaba.fastjson.JSONObject;
+import org.example.itheima.pojo.Order;
 import org.example.itheima.pojo.OrderDetail;
+import org.example.itheima.pojo.Result;
+import org.example.itheima.service.OrderService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,6 +22,9 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,6 +32,8 @@ import java.util.Map;
 @Slf4j
 @AllArgsConstructor
 public class EasyPayController {
+    @Autowired
+    private OrderService orderService;
     private final Config config;
     @PostMapping("/pay")
     public Map<String, Object> pay(@RequestBody OrderDetail od) throws Exception {
@@ -52,16 +61,25 @@ public class EasyPayController {
 
         // 构造返回结果
         Map<String, Object> result = new HashMap<>();
-        result.put("qr_code_url", "http://2b7dcb3c.r25.cpolar.top/static/qrcode/" + fileName);// 静态资源URL
+        result.put("qr_code_url", "http://14e52681.r25.cpolar.top/static/qrcode/" + fileName);// 静态资源URL
         result.put("alipay_response", jsonObject); // 保留原有支付宝响应
         return result;
     }
     @PostMapping("/notify")
-    public String notify(HttpServletRequest request){
+    public Result notify(HttpServletRequest request){
         log.info("支付成功");
-        String out_trade_no = request.getParameter("out_trade_no");
-        log.info("订单号：{}",out_trade_no);
-        //后续业务流程，发货等等
-        return "success";
+        String orderReference = request.getParameter("out_trade_no");
+        //构造二维码文件路径
+        String qrCodePath = "C:/Users/ASUS/Desktop/tea/tea-e-commerce/file/qrcode/" + orderReference + ".png";
+        try {
+            //执行文件删除（推荐使用NIO方式）
+            boolean deleted = Files.deleteIfExists(Paths.get(qrCodePath));
+            log.info("二维码删除结果：{}，路径：{}", deleted ? "成功" : "失败", qrCodePath);
+        } catch (IOException e) {
+            log.error("二维码删除异常：", e);
+        }
+        Order order = orderService.orderSearch(orderReference);
+        orderService.updateOrderState(order);
+        return Result.success("支付成功");
     }
 }

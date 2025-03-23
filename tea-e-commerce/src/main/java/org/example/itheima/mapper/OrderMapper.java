@@ -13,7 +13,7 @@ public interface OrderMapper {
     @Insert("insert into orders(order_reference,order_amounts,customer_name,state,shipping_address) " +
     "values(#{orderReference},#{orderAmounts},#{customerName},#{state},#{shippingAddress})")
     void addOrder(Order order);
-    @Update("update orders set state=#{state} where id=#{id}")
+    @Update("update orders set state=#{state} where order_reference=#{orderReference}")
     void updateOrder(Order order);
     @Select("select * from orders where order_reference=#{orderReference}")
     Order orderSearch(String orderReference);
