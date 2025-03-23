@@ -6,9 +6,8 @@ import lombok.Data;
 public class Order {
     Integer id;
     String orderReference;
-    Integer teaNumber;
-    String teaName;
     Float orderAmounts;
     String customerName;
     String state;
+    String shippingAddress;
 }

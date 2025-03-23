@@ -45,8 +45,8 @@ const search = async (orderReference) => {
             <el-table-column label="序号" width="100" type="index"> </el-table-column>
             <el-table-column label="订单编号" prop="orderReference"></el-table-column>
             <el-table-column label="订单总价" prop="orderAmounts"></el-table-column>
-            <el-table-column label="商品名称" prop="teaName"></el-table-column>
-            <el-table-column label="商品数量" prop="teaNumber"></el-table-column>
+            <el-table-column label="收货人" prop="customerName"></el-table-column>
+            <el-table-column label="收货地址" prop="shippingAddress"></el-table-column>
             <el-table-column label="商品状态" prop="state">
                 <template #default="{ row }">
                     <span v-if="row.state === '已发货'" style="color: green;">已发货</span>
@@ -54,7 +54,6 @@ const search = async (orderReference) => {
                     <span v-else-if="row.state === '已退货'" style="color: red;">已退货</span>
                 </template>
             </el-table-column>
-            <el-table-column label="收货人" prop="customerName"></el-table-column>
             <el-table-column label="操作">
                 <template #default="{ row }">
                   <el-button type="success" @click="updateState('已发货',row.id)">发货</el-button>

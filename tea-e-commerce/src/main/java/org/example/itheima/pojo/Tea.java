@@ -14,4 +14,5 @@ public class Tea {
     private String origin;
     private float price;
     private String image;
+    private Integer quantity;
 }

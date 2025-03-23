@@ -1,8 +1,6 @@
 package org.example.itheima.controller;
 
-import org.example.itheima.pojo.Order;
-import org.example.itheima.pojo.Result;
-import org.example.itheima.pojo.User;
+import org.example.itheima.pojo.*;
 import org.example.itheima.service.OrderService;
 import org.example.itheima.utils.Md5Util;
 import org.example.itheima.utils.ThreadLocalUtil;
@@ -15,26 +13,31 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/admin")
 public class OrderController {
     @Autowired
     private OrderService orderService;
-    @GetMapping("/orderList")
+    @PostMapping("/orders")
+    public Result addOrder(@RequestBody OrderData orders){
+        String orderId = orderService.addOrder(orders);
+        return Result.success(orderId);
+    }
+    @GetMapping("/orders/{orderId}")
+    public Result<OrderDetail> getOrderById(@PathVariable("orderId") String orderId){
+        OrderDetail od = orderService.getOrderById(orderId);
+        return Result.success(od);
+    }
+    //下面是管理员端
+    @GetMapping("/admin/orderList")
     public Result<List<Order>> orderList(){
         List<Order> orderList = orderService.orderList();
         return Result.success(orderList);
     }
-    @PostMapping("/order")
-    public Result addOrder(@RequestBody Order order){
-        orderService.addOrder(order);
-        return Result.success("下单成功");
-    }
-    @PutMapping("/orderUpdate")
+    @PutMapping("/admin/orderUpdate")
     public Result updateOrder(@RequestBody Order order){
         orderService.updateOrder(order);
         return Result.success("修改成功");
     }
-    @GetMapping("/orderSearch/{orderReference}")
+    @GetMapping("/admin/orderSearch/{orderReference}")
     public Result<Order> orderSearch(@PathVariable("orderReference") String orderReference){
         Order order = orderService.orderSearch(orderReference);
         return Result.success(order);
