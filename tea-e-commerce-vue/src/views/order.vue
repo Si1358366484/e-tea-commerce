@@ -24,6 +24,20 @@ const search = async (orderReference) => {
     orders.value = [result.data]
     ElMessage.success('搜索成功')
 }
+//动态行类名函数
+const rowClassName = ({ row }) => {
+    if (row.state === '已退货') {
+        return 'canceled-row';
+    }
+    return '';
+};
+// 定义 rowStyle 方法来设置行样式
+const rowStyle = ({ row }) => {
+    if (row.state === '已退货') {
+        return 'color: #a9a9a9; background-color: #f5f7fa; text-decoration: line-through;';
+    }
+    return '';
+};
 </script>
 <template>
     <el-card class="page-container">
@@ -41,7 +55,7 @@ const search = async (orderReference) => {
                 <el-button type="primary" @click="search(orderReference)">搜索</el-button>
             </el-form-item>
         </el-form>
-        <el-table :data="orders" class="table" height="482">
+        <el-table :data="orders" class="table" height="482"  :row-class-name="rowClassName">
             <el-table-column label="序号" width="100" type="index"> </el-table-column>
             <el-table-column label="订单编号" prop="orderReference"></el-table-column>
             <el-table-column label="订单总价" prop="orderAmounts"></el-table-column>
@@ -56,8 +70,9 @@ const search = async (orderReference) => {
             </el-table-column>
             <el-table-column label="操作">
                 <template #default="{ row }">
-                  <el-button type="success" @click="updateState('已发货',row.id)">发货</el-button>
-                  <el-button type="danger" @click="updateState('已退货',row.id)">退货</el-button>
+                  <!-- 添加 :disabled="row.state === '已退货'" 禁用按钮 -->
+                  <el-button type="success" @click="updateState('已发货',row.orderReference)" :disabled="row.state === '已退货'">发货</el-button>
+                  <el-button type="danger" @click="updateState('已退货',row.orderReference)" :disabled="row.state === '已退货'">退货</el-button>
                 </template>
             </el-table-column>
             <template #empty>
@@ -68,6 +83,28 @@ const search = async (orderReference) => {
 </template>
 
 <style lang="scss" scoped>
+:deep(.canceled-row) {
+    position: relative; /* 确保伪元素定位正确 */
+}
+
+:deep(.canceled-row td) {
+    position: relative;
+    background-color: #f5f7fa; /* 行背景色 */
+    color: gray; /* 文字颜色 */
+}
+
+/* 添加横线伪元素 */
+:deep(.canceled-row)::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 100%;
+    height: 1px;
+    background-color: gray; /* 横线颜色 */
+    transform: translateY(-50%);
+    z-index: 1;
+}
 .page-container {
     min-height: 100%;
     box-sizing: border-box;

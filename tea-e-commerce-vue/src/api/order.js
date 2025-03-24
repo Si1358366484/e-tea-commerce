@@ -3,10 +3,12 @@ import request from '@/utils/request.js'
 export const getOrderListService = ()=>{
     return request.get('/admin/orderList')
 }
-export const updateStateService = (state,id)=>{
+export const updateStateService = (state,orderReference)=>{
+    console.log(state,orderReference);
+    
     return request.put('/admin/orderUpdate', { 
         state: state, 
-        id: id 
+        orderReference:orderReference
     });
 }
 export const searchOrderService = (orderReference)=>{

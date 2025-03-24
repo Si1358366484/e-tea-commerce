@@ -65,7 +65,6 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void updateOrder(Order order) {
-        //待修改
         if (order.getState().equals("已发货")) {
             order.setState(OrderStatus.已发货.getDescription());
         } else {
