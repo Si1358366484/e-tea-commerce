@@ -4,7 +4,6 @@ import lombok.Data;
 
 @Data
 public class Order {
-    Integer id;
     String orderReference;
     Float orderAmounts;
     String customerName;
