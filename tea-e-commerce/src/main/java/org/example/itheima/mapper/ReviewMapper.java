@@ -2,6 +2,7 @@ package org.example.itheima.mapper;
 
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.example.itheima.pojo.Review;
 
@@ -12,6 +13,8 @@ public interface ReviewMapper {
     @Insert("insert into review(customer_name,tea_name,grade,content,review_time,state) " +
             "values(#{customerName},#{teaName},#{grade},#{content},#{reviewTime},#{state})")
     void createReview(Review review);
-    @Select("select * from review")
-    List<Review> reviewList();
+    @Select("SELECT * FROM review LIMIT #{offset}, #{pageSize}")
+    List<Review> getReviewsByPage(@Param("offset") int offset, @Param("pageSize") int pageSize);
+    @Select("SELECT COUNT(*) FROM review")
+    int getTotalReviews();
 }

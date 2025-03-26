@@ -1,11 +1,12 @@
 package org.example.itheima.service;
 
 import org.example.itheima.pojo.Review;
+import org.example.itheima.pojo.ReviewPage;
 
 import java.util.List;
 
 public interface ReviewService {
     void createReview(Review review);
 
-    List<Review> reviewList();
+    ReviewPage<Review> reviewList(Integer pageNum, Integer pageSize);
 }
