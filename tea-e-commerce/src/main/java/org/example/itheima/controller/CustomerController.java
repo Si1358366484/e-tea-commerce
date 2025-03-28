@@ -1,9 +1,7 @@
 package org.example.itheima.controller;
 
-import org.example.itheima.pojo.Customer;
-import org.example.itheima.pojo.Order;
-import org.example.itheima.pojo.Result;
-import org.example.itheima.pojo.User;
+import org.example.itheima.dto.PasswordUpdateDTO;
+import org.example.itheima.pojo.*;
 import org.example.itheima.service.CustomerService;
 import org.example.itheima.utils.JwtUtil;
 import org.example.itheima.utils.ThreadLocalUtil;
@@ -47,22 +45,36 @@ public class CustomerController {
             }
         }
     }
-    @GetMapping("/orderList/{name}")
-    public Result<List<Order>> orderList(@PathVariable("name") String name){
-        List<Order> orderList = customerService.orderList(name);
-        return Result.success(orderList);
+    @GetMapping("/users/{id}")
+    public Result<CustomerInfo> queryInfoById(@PathVariable("id") Integer id){
+        CustomerInfo customerInfo = customerService.queryInfoById(id);
+        return Result.success(customerInfo);
     }
-    @PutMapping("/update")
-    public Result update(@RequestBody Customer customer){
-        Map<String, Object> map = ThreadLocalUtil.get();
-        Integer id = (Integer) map.get("id");
-        customer.setId(id);
-        System.out.println(customer);
-        if (customer.getPassword() == null && customer.getName() == null ){
-            return Result.error("没有需要修改的数据");
-        }
-        //修改用户信息
-        customerService.update(customer);
+    @PutMapping("/users/{id}")
+    public Result updateInfo(@PathVariable("id") Integer id,@RequestBody @Validated Customer customer){
+        customerService.updateInfo(customer);
+        return Result.success();
+    }
+    @PutMapping("/users/password")
+    public Result updatePassword(@RequestBody PasswordUpdateDTO dto){
+        customerService.updatePassword(dto);
+        return Result.success();
+    }
+    @PostMapping("/users/address")
+    public Result addAddress(@RequestBody CustomerAddress customerAddress){
+        customerService.addAddress(customerAddress);
+        return Result.success();
+    }
+    @PutMapping("/users/address")
+    public Result updateAddress(@RequestBody CustomerAddress customerAddress){
+        System.out.println(customerAddress);
+        customerService.updateAddress(customerAddress);
+        return Result.success();
+    }
+    @DeleteMapping("/users/address")
+    public Result deleteAddress(@RequestParam Long id, @RequestParam Long addressId) {
+        //System.out.println(id + " " + addressId);
+        customerService.deleteAddress(id, addressId);
         return Result.success();
     }
 }

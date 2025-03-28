@@ -1,9 +1,6 @@
 package org.example.itheima.mapper;
 
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import org.example.itheima.pojo.Review;
 
 import java.util.List;
@@ -17,4 +14,6 @@ public interface ReviewMapper {
     List<Review> getReviewsByPage(@Param("offset") int offset, @Param("pageSize") int pageSize);
     @Select("SELECT COUNT(*) FROM review")
     int getTotalReviews();
+    @Delete("delete from review where id=#{id}")
+    void delete(Integer id);
 }

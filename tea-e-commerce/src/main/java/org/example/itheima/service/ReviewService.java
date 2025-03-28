@@ -9,4 +9,6 @@ public interface ReviewService {
     void createReview(Review review);
 
     ReviewPage<Review> reviewList(Integer pageNum, Integer pageSize);
+
+    void delete(Integer id);
 }

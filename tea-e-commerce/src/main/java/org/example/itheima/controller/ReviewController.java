@@ -26,4 +26,10 @@ public class ReviewController {
         ReviewPage<Review> reviewList = reviewService.reviewList(pageNum,pageSize);
         return Result.success(reviewList);
     }
+    @DeleteMapping("/admin/deleteReview/{id}")
+    public Result delete(@PathVariable("id") Integer id) {
+        System.out.println(id);
+        reviewService.delete(id);
+        return Result.success();
+    }
 }

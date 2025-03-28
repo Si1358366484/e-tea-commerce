@@ -1,9 +1,9 @@
 <script setup>
-import { Check, Delete } from "@element-plus/icons-vue";
+import { Check, Delete, Loading } from "@element-plus/icons-vue";
 import { ref } from "vue";
-import { ElMessage } from "element-plus";
+import { ElMessage,ElMessageBox } from "element-plus";
 import { onMounted, onUnmounted, nextTick } from "vue";
-import { getCommentListService } from "@/api/comment";
+import { getCommentListService,commentDeleteServise } from "@/api/comment";
 import { throttle } from "lodash-es";
 const comments = ref([]); // 数据列表
 const tableRef = ref();
@@ -61,11 +61,11 @@ const handleScroll = throttle(() => {
 // 初始化滚动监听
 onMounted(async () => {
   await getCommentList()
-  
+
   // 确保表格渲染完成后再获取滚动容器
   await nextTick()
   scrollWrapper = tableRef.value?.$el?.querySelector('.el-table__body-wrapper')
-  
+
   if (scrollWrapper) {
     scrollWrapper.addEventListener('scroll', handleScroll)
   }
@@ -77,6 +77,33 @@ onUnmounted(() => {
     scrollWrapper.removeEventListener('scroll', handleScroll)
   }
 })
+//删除评论
+const deleteComment = (id) => {
+    ElMessageBox.confirm(
+    '你确定要删除吗',
+    '温馨提示',
+    {
+      confirmButtonText: '确认',
+      cancelButtonText: '取消',
+      type: 'warning',
+    }
+  )
+    .then(async () => {
+        let result = await commentDeleteServise(id)
+        console.log(result)
+        getCommentList()
+      ElMessage({
+        type: 'success',
+        message: '删除成功',
+      })
+    })
+    .catch(() => {
+      ElMessage({
+        type: 'info',
+        message: '用户取消了删除',
+      })
+    })
+}
 </script>
 
 <template>
@@ -86,38 +113,14 @@ onUnmounted(() => {
         <span>评论管理</span>
       </div>
     </template>
-    <el-table
-      :data="comments"
-      class="table"
-      height="482"
-      @scroll="handleScroll"
-      ref="tableRef"
-    >
+    <el-table :data="comments" class="table" height="482" @scroll="handleScroll" ref="tableRef">
       <!-- 添加 align="center" 让文字居中 -->
       <el-table-column label="序号" width="100" type="index" align="center">
       </el-table-column>
-      <el-table-column
-        label="评论用户"
-        prop="customerName"
-        align="center"
-      ></el-table-column>
-      <el-table-column
-        label="评论商品"
-        prop="teaName"
-        align="center"
-      ></el-table-column>
-      <el-table-column
-        label="评分"
-        width="100"
-        prop="grade"
-        align="center"
-      ></el-table-column>
-      <el-table-column
-        label="评论内容"
-        width="450"
-        prop="content"
-        align="center"
-      ></el-table-column>
+      <el-table-column label="评论用户" prop="customerName" align="center"></el-table-column>
+      <el-table-column label="评论商品" prop="teaName" align="center"></el-table-column>
+      <el-table-column label="评分" width="100" prop="grade" align="center"></el-table-column>
+      <el-table-column label="评论内容" width="450" prop="content" align="center"></el-table-column>
       <el-table-column label="评论状态" prop="state" align="center">
         <template #default="{ row }">
           <!-- 修改绿色为更亮的颜色 -->
@@ -127,17 +130,17 @@ onUnmounted(() => {
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center">
-        <template #default="{}">
+        <template #default="{ row }">
           <el-button :icon="Check" circle type="success"></el-button>
-          <el-button :icon="Delete" circle type="danger"></el-button>
+          <el-button :icon="Delete" circle type="danger" @click="deleteComment(row.id)"></el-button>
         </template>
       </el-table-column>
       <template #append>
         <div v-if="loading" class="loading-animation">
-          <!-- 添加 flex 布局样式 -->
-          <div style="display: flex; justify-content: center; align-items: center;">
-            <el-icon :size="20">
-              <el-loading />
+          <!-- 添加 flex 布局样式和高度样式 -->
+          <div style="display: flex; justify-content: center; align-items: center; height: 50px;">
+            <el-icon :size="20" color="#409eff">
+              <Loading /> <!-- 从图标库导入的组件 -->
             </el-icon>
             <!-- 使用项目中已有的样式，文本居中 -->
             <span style="text-align: center; margin-left: 8px;">正在加载更多数据...</span>

@@ -1,10 +1,9 @@
 package org.example.itheima.mapper;
 
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
+import org.example.itheima.dto.PasswordUpdateDTO;
 import org.example.itheima.pojo.Customer;
+import org.example.itheima.pojo.CustomerAddress;
 import org.example.itheima.pojo.Order;
 
 import java.util.List;
@@ -15,7 +14,22 @@ public interface CustomerMapper {
     void register(String password, String username);
     @Select("select * from customer where username=#{username}")
     Customer login(String username);
-    @Select("select * from orders where customer_name=#{name}")
-    List<Order> orderList(String name);
-    void update(Customer customer);
+    @Select("select * from orders where customer_id=#{id}")
+    List<Order> orderList(Integer id);
+    @Select("select * from customer where id=#{id}")
+    Customer queryInfoById(Integer id);
+    @Select("select * from customer_addresses where id=#{id}")
+    List<CustomerAddress> addressList(Integer id);
+
+    void updateInfo(Customer customer);
+    @Update("update customer set password=#{newPassword} where id=#{id}")
+    void updatePassword(PasswordUpdateDTO dto);
+    @Insert("insert into customer_addresses(id,name,phone,address) values(#{id},#{name},#{phone},#{address})")
+    void addAddress(CustomerAddress customerAddress);
+    @Update("update customer_addresses set name=#{name},phone=#{phone},address=#{address} where address_id=#{addressId}")
+    void updateAddress(CustomerAddress customerAddress);
+    @Delete("delete from customer_addresses where address_id=#{addressId}")
+    void deleteAddress(Long id, Long addressId);
+    @Select("SELECT * FROM orders WHERE customer_id=#{id} ORDER BY create_time DESC LIMIT 1")
+    List<Order> newOrder(Integer id);
 }

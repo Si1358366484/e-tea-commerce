@@ -35,4 +35,9 @@ public class ReviewServiceImpl implements ReviewService {
         page.setHasMore(hasMore);
         return page;
     }
+
+    @Override
+    public void delete(Integer id) {
+        reviewMapper.delete(id);
+    }
 }

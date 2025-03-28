@@ -5,3 +5,6 @@ export const getCommentListService = (params)=>{
         params
     })
 }
+export const commentDeleteServise = (id)=>{
+    return request.delete(`/admin/deleteReview/${id}`)
+}
