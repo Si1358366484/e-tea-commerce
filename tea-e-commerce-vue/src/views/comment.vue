@@ -16,9 +16,14 @@ const initialLoading = ref(true) // 新增初始加载状态
 
 
 // 获取数据方法
-const getCommentList = async () => {
+const getCommentList = async (reset = false) => {
   try {
     loading.value = true
+     // 重置分页时清空数据
+     if (reset) {
+      page.value = 1
+      comments.value = []
+    }
     let params = {
       pageNum: page.value,
       pageSize: pageSize.value,
@@ -91,7 +96,7 @@ const deleteComment = (id) => {
     .then(async () => {
         let result = await commentDeleteServise(id)
         console.log(result)
-        getCommentList()
+        getCommentList(true)
       ElMessage({
         type: 'success',
         message: '删除成功',
