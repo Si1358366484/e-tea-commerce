@@ -1,5 +1,7 @@
 package org.example.itheima.controller;
 
+import org.example.itheima.dto.AddressDTO;
+import org.example.itheima.dto.OrderQueryDTO;
 import org.example.itheima.pojo.*;
 import org.example.itheima.service.OrderService;
 import org.example.itheima.utils.Md5Util;
@@ -26,6 +28,27 @@ public class OrderController {
         OrderDetail od = orderService.getOrderById(orderId);
         return Result.success(od);
     }
+    @PutMapping("/orders/address/{orderId}")
+    public Result updateAddress(@PathVariable("orderId") String orderId,@RequestBody Map<String, Object> requestBody){
+        Map<String, Object> addressMap = (Map<String, Object>) requestBody.get("address");
+        String address = (String) addressMap.get("address");
+        String name = (String) addressMap.get("name");
+        orderService.updateAddress(orderId,address,name);
+        return Result.success("修改成功");
+    }
+    @GetMapping("/orders")
+    public Result orderList(OrderQueryDTO dto){
+        System.out.println(dto);
+        return Result.success();
+    }
+    @PutMapping("/orders/status/{orderId}")
+    public Result updateOrderState(@PathVariable("orderId") String orderId,@RequestBody Map<String, String> requestBody){
+        String state = requestBody.get("status");
+        Order order = orderService.orderSearch(orderId);
+        order.setState(state);
+        orderService.updateOrderState(order);
+        return Result.success("修改成功");
+    }
     //下面是管理员端
     @GetMapping("/admin/orderList")
     public Result<List<Order>> orderList(){
@@ -42,5 +65,6 @@ public class OrderController {
         Order order = orderService.orderSearch(orderReference);
         return Result.success(order);
     }
+
 }
 

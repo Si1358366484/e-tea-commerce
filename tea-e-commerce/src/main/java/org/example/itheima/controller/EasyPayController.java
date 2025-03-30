@@ -61,8 +61,9 @@ public class EasyPayController {
 
         // 构造返回结果
         Map<String, Object> result = new HashMap<>();
-        result.put("qr_code_url", "http://14e52681.r25.cpolar.top/static/qrcode/" + fileName);// 静态资源URL
+        result.put("qr_code_url", "http://47482bd6.r25.cpolar.top/static/qrcode/" + fileName);// 静态资源URL
         result.put("alipay_response", jsonObject); // 保留原有支付宝响应
+        System.out.println(result);
         return result;
     }
     @PostMapping("/notify")
@@ -78,8 +79,8 @@ public class EasyPayController {
         } catch (IOException e) {
             log.error("二维码删除异常：", e);
         }
-        Order order = orderService.orderSearch(orderReference);
-        orderService.updateOrderState(order);
+        //Order order = orderService.orderSearch(orderReference);
+        //orderService.updateOrderState(order);
         return Result.success("支付成功");
     }
 }

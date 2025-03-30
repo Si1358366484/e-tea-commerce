@@ -18,7 +18,6 @@ public class FileUploadController {
         String originalFilename = file.getOriginalFilename();
         //将每一个文件名设置为唯一的文件名
         String fileName = UUID.randomUUID().toString() + originalFilename.substring(originalFilename.lastIndexOf("."));
-        //file.transferTo(new File("E:\\WYSX\\hou\\big-event\\file\\"+fileName));
         String url = AliOssUtil.uploadFile(fileName, file.getInputStream());
         return Result.success(url);
     }

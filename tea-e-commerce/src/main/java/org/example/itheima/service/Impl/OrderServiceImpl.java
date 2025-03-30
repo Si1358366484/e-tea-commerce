@@ -6,6 +6,7 @@ import org.example.itheima.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -29,7 +30,7 @@ public class OrderServiceImpl implements OrderService {
         order.setOrderAmounts(orders.getTotalPrice());
         order.setState(OrderStatus.未付款.getDescription());
         order.setCustomerName(orders.getReceiver());
-        order.setShippingAddress("广州软件学院");
+        order.setCreateTime(LocalDateTime.now());
         orderMapper.addOrder(order);
         //创建订单明细表
         for (Tea tea : orders.getProducts()) {
@@ -61,6 +62,11 @@ public class OrderServiceImpl implements OrderService {
         System.out.println(order);
         order.setState(OrderStatus.已付款.getDescription());
         orderMapper.updateOrder(order);
+    }
+
+    @Override
+    public void updateAddress(String orderId, String address,String name) {
+        orderMapper.updateAddress(orderId,address,name);
     }
 
     @Override
