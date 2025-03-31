@@ -1,9 +1,8 @@
 package org.example.itheima.service;
 
-import org.example.itheima.pojo.Order;
-import org.example.itheima.pojo.OrderData;
-import org.example.itheima.pojo.OrderDetail;
-import org.example.itheima.pojo.Tea;
+import org.example.itheima.dto.OrderQueryDTO;
+import org.example.itheima.dto.OrderReturnDTO;
+import org.example.itheima.pojo.*;
 
 import java.util.List;
 
@@ -20,5 +19,7 @@ public interface OrderService {
 
     void updateOrderState(Order order);
 
-    void updateAddress(String orderId, String addresses,String name);
+    void updateAddress(String orderId, String addresses,String name,String phone);
+
+    OrderReturnDTO orderQueryList(OrderQueryDTO dto);
 }

@@ -2,6 +2,7 @@ package org.example.itheima.controller;
 
 import org.example.itheima.dto.AddressDTO;
 import org.example.itheima.dto.OrderQueryDTO;
+import org.example.itheima.dto.OrderReturnDTO;
 import org.example.itheima.pojo.*;
 import org.example.itheima.service.OrderService;
 import org.example.itheima.utils.Md5Util;
@@ -31,15 +32,18 @@ public class OrderController {
     @PutMapping("/orders/address/{orderId}")
     public Result updateAddress(@PathVariable("orderId") String orderId,@RequestBody Map<String, Object> requestBody){
         Map<String, Object> addressMap = (Map<String, Object>) requestBody.get("address");
+        System.out.println(addressMap);
         String address = (String) addressMap.get("address");
         String name = (String) addressMap.get("name");
-        orderService.updateAddress(orderId,address,name);
+        String phone = (String) addressMap.get("phone");
+        orderService.updateAddress(orderId,address,name,phone);
         return Result.success("修改成功");
     }
     @GetMapping("/orders")
-    public Result orderList(OrderQueryDTO dto){
-        System.out.println(dto);
-        return Result.success();
+    public Result<OrderReturnDTO> orderList(OrderQueryDTO dto){
+        OrderReturnDTO orderReturnDTO = orderService.orderQueryList(dto);
+        System.out.println(orderReturnDTO);
+        return Result.success(orderReturnDTO);
     }
     @PutMapping("/orders/status/{orderId}")
     public Result updateOrderState(@PathVariable("orderId") String orderId,@RequestBody Map<String, String> requestBody){

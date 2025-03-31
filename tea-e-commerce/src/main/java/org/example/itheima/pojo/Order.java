@@ -14,4 +14,5 @@ public class Order {
     String shippingAddress;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     LocalDateTime createTime;
+    String phone;
 }

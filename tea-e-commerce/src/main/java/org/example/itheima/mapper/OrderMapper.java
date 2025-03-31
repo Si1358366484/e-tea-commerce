@@ -3,6 +3,7 @@ package org.example.itheima.mapper;
 import org.apache.ibatis.annotations.*;
 import org.example.itheima.pojo.Order;
 import org.example.itheima.pojo.OrderItem;
+import org.example.itheima.pojo.Tea;
 
 import java.util.List;
 
@@ -22,6 +23,9 @@ public interface OrderMapper {
     void addOrderItem(OrderItem oi);
     @Select("select * from order_item where order_reference=#{orderReference}")
     List<OrderItem> orderItemSearch(String orderReference);
-    @Update("update orders set shipping_address=#{address},customer_name=#{name} where order_reference=#{orderId}")
-    void updateAddress(String orderId, String address,String name);
+    @Update("update orders set shipping_address=#{address},customer_name=#{name},phone=#{phone} where order_reference=#{orderId}")
+    void updateAddress(String orderId, String address,String name,String phone);
+    List<Order> orderQueryList(@Param("status") String status,@Param("username") String username);
+    @Select("select * from tea where name = #{name}")
+    List<Tea> teaSearch(String name);
 }
