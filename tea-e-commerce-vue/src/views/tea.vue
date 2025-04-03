@@ -185,7 +185,7 @@ const editTea = async () => {
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" @click="teaList();ElMessage.success('更新成功')">搜索</el-button>
-                <el-button @click="categoryName=''">重置</el-button>
+                <el-button @click="categoryName='',teaList()">重置</el-button>
             </el-form-item>
         </el-form>
         <!-- 文章列表 -->

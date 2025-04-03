@@ -3,7 +3,7 @@ import { Check, Delete, Loading } from "@element-plus/icons-vue";
 import { ref } from "vue";
 import { ElMessage,ElMessageBox } from "element-plus";
 import { onMounted, onUnmounted, nextTick } from "vue";
-import { getCommentListService,commentDeleteServise } from "@/api/comment";
+import { getCommentListService,commentDeleteServise,commentApproveServise } from "@/api/comment";
 import { throttle } from "lodash-es";
 const comments = ref([]); // 数据列表
 const tableRef = ref();
@@ -109,6 +109,16 @@ const deleteComment = (id) => {
       })
     })
 }
+// 审核评论
+const approvedComment = async (id) => {
+  let result = await commentApproveServise(id)
+        console.log(result)
+        getCommentList(true)
+      ElMessage({
+        type: 'success',
+        message: '审核结束已通过',
+      })
+}
 </script>
 
 <template>
@@ -128,7 +138,6 @@ const deleteComment = (id) => {
       <el-table-column label="评论内容" width="450" prop="content" align="center"></el-table-column>
       <el-table-column label="评论状态" prop="state" align="center">
         <template #default="{ row }">
-          <!-- 修改绿色为更亮的颜色 -->
           <span v-if="row.state === '已通过'" style="color: #32CD32">已通过</span>
           <span v-else-if="row.state === '待审核'" style="color: #A9A9A9">待审核</span>
           <span v-else-if="row.state === '已驳回'" style="color: red">已驳回</span>
@@ -136,7 +145,7 @@ const deleteComment = (id) => {
       </el-table-column>
       <el-table-column label="操作" align="center">
         <template #default="{ row }">
-          <el-button :icon="Check" circle type="success"></el-button>
+          <el-button :icon="Check" circle type="success" @click="approvedComment(row.id)"></el-button>
           <el-button :icon="Delete" circle type="danger" @click="deleteComment(row.id)"></el-button>
         </template>
       </el-table-column>
@@ -157,7 +166,9 @@ const deleteComment = (id) => {
         </div>
       </template>
       <template #empty>
-        <el-empty description="没有数据" />
+        <div v-if="!initialLoading && comments.length === 0">
+          <el-empty description="没有数据" />
+        </div>
       </template>
     </el-table>
   </el-card>

@@ -9,7 +9,7 @@ import java.util.List;
 
 @Mapper
 public interface OrderMapper {
-    @Select("select * from orders")
+    @Select("select * from orders ORDER BY create_time ASC")
     List<Order> orderList();
     @Insert("insert into orders(order_reference,order_amounts,customer_name,state,create_time) " +
     "values(#{orderReference},#{orderAmounts},#{customerName},#{state},#{createTime})")

@@ -8,3 +8,6 @@ export const getCommentListService = (params)=>{
 export const commentDeleteServise = (id)=>{
     return request.delete(`/admin/deleteReview/${id}`)
 }
+export const commentApproveServise = (id)=>{
+    return request.put(`/admin/approveReview/${id}`)
+}

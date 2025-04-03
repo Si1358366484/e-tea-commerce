@@ -14,4 +14,6 @@ public class Review {
     private String state;
     @JsonFormat(pattern = "MM-dd")
     private LocalDateTime reviewTime;
+    private Integer teaId;
+    private Integer customerId;
 }

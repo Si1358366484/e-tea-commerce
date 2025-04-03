@@ -11,6 +11,7 @@ const orders = ref()
 const orderReference = ref()
 const getOrderList = async () => {
     let result = await getOrderListService()
+    console.log(result);
     orders.value = result.data.reverse()
 }
 getOrderList()
@@ -60,7 +61,7 @@ const filterOrders = () => {
     orderCount.value = filtered.length
     return filtered
   } else if (operationName.value === '退货') {
-    const filtered = orders.value.filter(item => item.state === '已发货')
+    const filtered = orders.value.filter(item => item.state === '申请退货')
     orderCount.value = filtered.length
     return filtered
   }
@@ -121,14 +122,16 @@ const filterOrders = () => {
                 <template #default="{ row }">
                     <span v-if="row.state === '已发货'" style="color: green;">已发货</span>
                     <span v-else-if="row.state === '已付款'" style="color: orange;">已付款</span>
-                    <span v-else-if="row.state === '已退货'" style="color: red;">已退货</span>
+                    <span v-else-if="row.state === '已退货'" style="color: #f56c6c;">已退货</span>
+                    <span v-else-if="row.state === '申请退货'" style="color: #e6a23c;">申请退货</span>
+                    <span v-else-if="row.state === '已收货'" style="color: #67c23a;">已收货</span>
                 </template>
             </el-table-column>
             <el-table-column label="操作" v-if="operationName != ''">
                 <template #default="{ row }">
                   <!-- 添加 :disabled="row.state === '已退货'" 禁用按钮 -->
-                  <el-button v-if="operationName=='退货'" type="danger" @click="updateState('已退货',row.orderReference)" :disabled="row.state === '已退货'">退货</el-button>
-                  <el-button v-else type="success" @click="updateState('已发货',row.orderReference)" :disabled="row.state === '已退货'">发货</el-button>
+                  <el-button v-if="operationName=='退货'" type="danger" @click="updateState('已退货',row.orderReference)" >退货</el-button>
+                  <el-button v-else type="success" @click="updateState('已发货',row.orderReference)">发货</el-button>
                 </template>
             </el-table-column>
             <template #empty>

@@ -42,7 +42,7 @@ public class OrderController {
     @GetMapping("/orders")
     public Result<OrderReturnDTO> orderList(OrderQueryDTO dto){
         OrderReturnDTO orderReturnDTO = orderService.orderQueryList(dto);
-        System.out.println(orderReturnDTO);
+        //System.out.println(orderReturnDTO);
         return Result.success(orderReturnDTO);
     }
     @PutMapping("/orders/status/{orderId}")

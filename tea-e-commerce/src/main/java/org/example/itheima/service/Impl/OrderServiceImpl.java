@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import static org.example.itheima.pojo.OrderStatus.*;
+
 @Service
 public class OrderServiceImpl implements OrderService {
     @Autowired
@@ -34,7 +36,7 @@ public class OrderServiceImpl implements OrderService {
         String numericUUID = uuidStr.substring(0, 8); // 取前8位
         order.setOrderReference(numericUUID);
         order.setOrderAmounts(orders.getTotalPrice());
-        order.setState(OrderStatus.未付款.getDescription());
+        order.setState(未付款.getDescription());
         order.setCustomerName(orders.getReceiver());
         order.setCreateTime(LocalDateTime.now());
         orderMapper.addOrder(order);
@@ -65,8 +67,26 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void updateOrderState(Order order) {
-        System.out.println(order);
-        order.setState(OrderStatus.已付款.getDescription());
+        switch (order.getState()) {
+            case "已付款":
+                order.setState(OrderStatus.已付款.getDescription());
+                break;
+            case "已发货":
+                order.setState(OrderStatus.已发货.getDescription());
+                break;
+            case "已收货":
+                order.setState(OrderStatus.已收货.getDescription());
+                break;
+            case "申请退货":
+                order.setState(OrderStatus.申请退货.getDescription());
+                break;
+            case "已退货":
+                order.setState(OrderStatus.已退货.getDescription());
+                break;
+            default:
+                order.setState(OrderStatus.未付款.getDescription());
+                break;
+        }
         orderMapper.updateOrder(order);
     }
 
@@ -115,7 +135,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void updateOrder(Order order) {
         if (order.getState().equals("已发货")) {
-            order.setState(OrderStatus.已发货.getDescription());
+            order.setState(已发货.getDescription());
         } else {
             order.setState(OrderStatus.已退货.getDescription());
         }

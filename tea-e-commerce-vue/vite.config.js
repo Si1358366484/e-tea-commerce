@@ -16,6 +16,9 @@ export default defineConfig({
     },
   },
   server: {
+    host: '0.0.0.0', // 允许局域网和外部访问
+    port: 5174,       // 强制使用5174端口
+    strictPort: true, // 端口被占用时直接报错，不自动切换
     proxy: {
       '/api': {//获取路径中包含api的请求
         target: 'http://localhost:8080',
