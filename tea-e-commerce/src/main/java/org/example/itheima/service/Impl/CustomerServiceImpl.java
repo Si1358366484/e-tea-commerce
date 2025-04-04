@@ -79,4 +79,10 @@ public class CustomerServiceImpl implements CustomerService {
     public void deleteAddress(Long id, Long addressId) {
         customerMapper.deleteAddress(id,addressId);
     }
+
+    @Override
+    public void updateBalance(int i, Double balance) {
+        Integer userId = i;
+        customerMapper.updateBalance(userId,balance);
+    }
 }

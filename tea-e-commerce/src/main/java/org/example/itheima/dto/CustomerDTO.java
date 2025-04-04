@@ -14,4 +14,5 @@ public class CustomerDTO{
     private String phone;
     private String email;
     private String avatar;
+    private Double balance;
 }

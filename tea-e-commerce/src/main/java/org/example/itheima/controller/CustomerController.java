@@ -77,4 +77,9 @@ public class CustomerController {
         customerService.deleteAddress(id, addressId);
         return Result.success();
     }
+    @PostMapping("/users/balance")
+    public Result updateBalance(@RequestParam("amount") Double balance, @RequestParam("userId") String userId){
+        customerService.updateBalance(Integer.parseInt(userId),balance);
+        return Result.success();
+    }
 }

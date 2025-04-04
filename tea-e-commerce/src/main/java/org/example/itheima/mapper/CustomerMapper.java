@@ -32,4 +32,6 @@ public interface CustomerMapper {
     void deleteAddress(Long id, Long addressId);
     @Select("SELECT * FROM orders WHERE customer_id=#{id} ORDER BY create_time DESC LIMIT 1")
     List<Order> newOrder(Integer id);
+    @Update("update customer set balance = balance +#{balance} where id=#{userId}")
+    void updateBalance(Integer userId,Double balance);
 }

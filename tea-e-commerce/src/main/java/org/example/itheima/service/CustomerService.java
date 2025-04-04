@@ -24,4 +24,6 @@ public interface CustomerService {
     void updateAddress(CustomerAddress customerAddress);
 
     void deleteAddress(Long id, Long addressId);
+
+    void updateBalance(int i, Double amount);
 }

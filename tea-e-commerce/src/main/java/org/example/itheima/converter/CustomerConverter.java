@@ -16,6 +16,7 @@ public class CustomerConverter {
                 .phone(customer.getPhone())
                 .email(customer.getEmail())
                 .avatar(customer.getAvatar())
+                .balance(customer.getBalance())
                 .build();
     }
 }
