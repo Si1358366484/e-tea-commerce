@@ -11,8 +11,8 @@ import java.util.List;
 public interface OrderMapper {
     @Select("select * from orders ORDER BY create_time ASC")
     List<Order> orderList();
-    @Insert("insert into orders(order_reference,order_amounts,customer_name,state,create_time) " +
-    "values(#{orderReference},#{orderAmounts},#{customerName},#{state},#{createTime})")
+    @Insert("insert into orders(order_reference,order_amounts,customer_name,state,create_time,customer_id) " +
+    "values(#{orderReference},#{orderAmounts},#{customerName},#{state},#{createTime},#{customerId})")
     void addOrder(Order order);
     @Update("update orders set state=#{state} where order_reference=#{orderReference}")
     void updateOrder(Order order);
@@ -28,4 +28,6 @@ public interface OrderMapper {
     List<Order> orderQueryList(@Param("status") String status,@Param("username") String username);
     @Select("select * from tea where name = #{name}")
     List<Tea> teaSearch(String name);
+    @Update("update customer set balance = #{price} where id = #{userId}")
+    void updateBalance(Integer userId, Double price);
 }

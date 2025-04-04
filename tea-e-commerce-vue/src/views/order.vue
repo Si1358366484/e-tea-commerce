@@ -5,8 +5,12 @@ import {
 } from '@element-plus/icons-vue'
 import { ref } from 'vue'
 import { ElMessage } from 'element-plus'
-import { getOrderListService,updateStateService,searchOrderService } from '@/api/order'
+import { getOrderListService,updateStateService,searchOrderService,moneyBackService } from '@/api/order'
 import { Goods, RefreshLeft, Van } from '@element-plus/icons-vue'
+import { onMounted, onUnmounted, nextTick } from "vue";
+onMounted(() => {
+    getOrderList()
+})
 const orders = ref()
 const orderReference = ref()
 const getOrderList = async () => {
@@ -14,10 +18,12 @@ const getOrderList = async () => {
     console.log(result);
     orders.value = result.data.reverse()
 }
-getOrderList()
-
-const updateState = async (state,id) => {
+const updateState = async (state,id,balance) => {
     let result = await updateStateService(state,id)
+    if(state == '已退货'){
+        moneyBackService(balance,id)
+      ElMessage.success('退款成功')
+    }
     ElMessage.success('更新成功')
     getOrderList() 
     orderCount.value = filterOrders().length
@@ -130,7 +136,7 @@ const filterOrders = () => {
             <el-table-column label="操作" v-if="operationName != ''">
                 <template #default="{ row }">
                   <!-- 添加 :disabled="row.state === '已退货'" 禁用按钮 -->
-                  <el-button v-if="operationName=='退货'" type="danger" @click="updateState('已退货',row.orderReference)" >退货</el-button>
+                  <el-button v-if="operationName=='退货'" type="danger" @click="updateState('已退货',row.orderReference,row.orderAmounts)" >退货</el-button>
                   <el-button v-else type="success" @click="updateState('已发货',row.orderReference)">发货</el-button>
                 </template>
             </el-table-column>

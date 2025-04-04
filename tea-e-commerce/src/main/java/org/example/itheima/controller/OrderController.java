@@ -1,9 +1,11 @@
 package org.example.itheima.controller;
 
 import org.example.itheima.dto.AddressDTO;
+import org.example.itheima.dto.MoneyBackDTO;
 import org.example.itheima.dto.OrderQueryDTO;
 import org.example.itheima.dto.OrderReturnDTO;
 import org.example.itheima.pojo.*;
+import org.example.itheima.service.CustomerService;
 import org.example.itheima.service.OrderService;
 import org.example.itheima.utils.Md5Util;
 import org.example.itheima.utils.ThreadLocalUtil;
@@ -19,6 +21,8 @@ import java.util.Map;
 public class OrderController {
     @Autowired
     private OrderService orderService;
+    @Autowired
+    private CustomerService customerService;
     @PostMapping("/orders")
     public Result addOrder(@RequestBody OrderData orders){
         String orderId = orderService.addOrder(orders);
@@ -53,6 +57,19 @@ public class OrderController {
         orderService.updateOrderState(order);
         return Result.success("修改成功");
     }
+    @PutMapping("/orders/balancePay/{orderId}")
+    public Result balancePay(@PathVariable("orderId") String orderId,@RequestBody Map<String, String> requestBody){
+        String state = requestBody.get("status");
+        Double balance = Double.parseDouble(requestBody.get("balance"));
+        Order order = orderService.orderSearch(orderId);
+        order.setState(state);
+        Double price = balance - Double.valueOf(order.getOrderAmounts());
+        orderService.updateOrderState(order);
+        Map<String, Object> map = ThreadLocalUtil.get();
+        Integer userId = (Integer) map.get("id");
+        orderService.updateBalance(userId,price);
+        return Result.success("修改成功");
+    }
     //下面是管理员端
     @GetMapping("/admin/orderList")
     public Result<List<Order>> orderList(){
@@ -62,6 +79,15 @@ public class OrderController {
     @PutMapping("/admin/orderUpdate")
     public Result updateOrder(@RequestBody Order order){
         orderService.updateOrder(order);
+        return Result.success("修改成功");
+    }
+    @PutMapping("/admin/moneyBack")
+    public Result moneyBack(@RequestBody MoneyBackDTO dto){
+        Double balance = dto.getBalance();
+        String orderReference = dto.getOrderReference();
+        Order order = orderService.orderSearch(orderReference);
+        int i = order.getCustomerId();
+        customerService.updateBalance(i,balance);
         return Result.success("修改成功");
     }
     @GetMapping("/admin/orderSearch/{orderReference}")

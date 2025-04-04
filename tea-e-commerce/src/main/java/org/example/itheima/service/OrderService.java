@@ -22,4 +22,6 @@ public interface OrderService {
     void updateAddress(String orderId, String addresses,String name,String phone);
 
     OrderReturnDTO orderQueryList(OrderQueryDTO dto);
+
+    void updateBalance(Integer userId, Double price);
 }

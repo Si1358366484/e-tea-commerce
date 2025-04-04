@@ -83,6 +83,7 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public void updateBalance(int i, Double balance) {
         Integer userId = i;
+        System.out.println("userId = " + userId + "balance = " + balance);
         customerMapper.updateBalance(userId,balance);
     }
 }

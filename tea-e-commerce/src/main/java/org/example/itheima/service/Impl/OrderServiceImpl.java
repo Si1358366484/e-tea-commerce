@@ -8,12 +8,14 @@ import org.example.itheima.dto.OrderReturnDTO;
 import org.example.itheima.mapper.OrderMapper;
 import org.example.itheima.pojo.*;
 import org.example.itheima.service.OrderService;
+import org.example.itheima.utils.ThreadLocalUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import static org.example.itheima.pojo.OrderStatus.*;
@@ -29,6 +31,11 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public void updateBalance(Integer userId, Double price) {
+        orderMapper.updateBalance(userId,price);
+    }
+
+    @Override
     public String addOrder(OrderData orders) {
         //创建订单
         Order order = new Order();
@@ -39,6 +46,9 @@ public class OrderServiceImpl implements OrderService {
         order.setState(未付款.getDescription());
         order.setCustomerName(orders.getReceiver());
         order.setCreateTime(LocalDateTime.now());
+        Map<String, Object> map = ThreadLocalUtil.get();
+        Integer userId = (Integer) map.get("id");
+        order.setCustomerId(userId);
         orderMapper.addOrder(order);
         //创建订单明细表
         for (Tea tea : orders.getProducts()) {
